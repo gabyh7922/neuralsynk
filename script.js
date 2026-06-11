@@ -1,5 +1,8 @@
-// ===== Año en el footer =====
-document.getElementById("year").textContent = new Date().getFullYear();
+// ===== Año en el footer (desde 2025, fin automático) =====
+const startYear = 2025;
+const nowYear = new Date().getFullYear();
+document.getElementById("year").textContent =
+  nowYear > startYear ? `${startYear}–${nowYear}` : `${startYear}`;
 
 // ===== Nav: fondo al hacer scroll =====
 const nav = document.getElementById("nav");
