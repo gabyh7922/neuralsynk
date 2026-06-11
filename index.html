@@ -124,11 +124,16 @@
     <div class="contact-card reveal">
       <h2 class="section-title">¿Listo para <span class="glow-text">empezar</span>?</h2>
       <p class="contact-sub">Cuéntanos tu idea y te respondemos a la brevedad.</p>
-      <form class="contact-form" id="contact-form">
-        <div class="field"><input type="text" name="nombre" placeholder="Tu nombre" required /></div>
+      <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="2821514c-8791-4db2-99fb-5e5c03bf9b87" />
+        <input type="hidden" name="subject" value="Nuevo contacto desde neuralsynk.cl" />
+        <input type="hidden" name="from_name" value="Web NeuralSynk" />
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <div class="field"><input type="text" name="name" placeholder="Tu nombre" required /></div>
         <div class="field"><input type="email" name="email" placeholder="Tu correo" required /></div>
-        <div class="field full"><textarea name="mensaje" rows="4" placeholder="Cuéntanos sobre tu proyecto" required></textarea></div>
+        <div class="field full"><textarea name="message" rows="4" placeholder="Cuéntanos sobre tu proyecto" required></textarea></div>
         <button type="submit" class="btn btn-primary full">Enviar mensaje</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
       </form>
       <p class="contact-direct">O escríbenos a <a href="mailto:contacto@neuralsynk.cl">contacto@neuralsynk.cl</a></p>
     </div>

@@ -51,14 +51,41 @@ document.querySelectorAll(".tilt").forEach(card => {
   card.addEventListener("mouseleave", () => (card.style.transform = ""));
 });
 
-// ===== Formulario (demo: abre el cliente de correo) =====
+// ===== Formulario: envío real vía Web3Forms =====
 const form = document.getElementById("contact-form");
-form.addEventListener("submit", e => {
+const formStatus = document.getElementById("form-status");
+const submitBtn = form.querySelector('button[type="submit"]');
+
+form.addEventListener("submit", async e => {
   e.preventDefault();
-  const d = new FormData(form);
-  const subject = encodeURIComponent(`Nuevo contacto web — ${d.get("nombre")}`);
-  const body = encodeURIComponent(`Nombre: ${d.get("nombre")}\nCorreo: ${d.get("email")}\n\n${d.get("mensaje")}`);
-  location.href = `mailto:contacto@neuralsynk.cl?subject=${subject}&body=${body}`;
+  const original = submitBtn.textContent;
+  submitBtn.textContent = "Enviando…";
+  submitBtn.disabled = true;
+  formStatus.textContent = "";
+  formStatus.className = "form-status";
+
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { Accept: "application/json" },
+      body: new FormData(form),
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      formStatus.textContent = "✅ ¡Mensaje enviado! Te responderemos pronto.";
+      formStatus.classList.add("ok");
+      form.reset();
+    } else {
+      formStatus.textContent = "⚠️ " + (data.message || "No se pudo enviar. Intenta de nuevo.");
+      formStatus.classList.add("err");
+    }
+  } catch {
+    formStatus.textContent = "⚠️ Problema de conexión. Inténtalo nuevamente.";
+    formStatus.classList.add("err");
+  } finally {
+    submitBtn.textContent = original;
+    submitBtn.disabled = false;
+  }
 });
 
 // ===== Fondo animado: red neuronal de partículas =====
